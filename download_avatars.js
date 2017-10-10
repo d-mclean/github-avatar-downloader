@@ -2,6 +2,9 @@
 
   Scoops up all the GitHub avatars and stashes them locally.
 
+  Note: this requires an environment variable be set/exported prior to running.
+          i.e. in terminal: export GITHUB_TOKEN=<type in gh token here>
+
 */
 var request = require('request');
 
@@ -29,25 +32,27 @@ function getRepoContributors(repoOwner, repoName, cb) {
   };
 
   request(options, function (error, response, body) {
+    // This is "error handling" for now.
     if (!error && response.statusCode == 200) {
-        // Print out the response body
-        //console.log(body)
-         cb(body);
+        // Callback...
+         cb(error, body);
     } else {
-      //console.log(response)
+      // Let the user know what happened if there's an error.
+      console.log("Errors:", err);
+      console.log("Result:", result);
     }
   });
-}
+};
 
+// Tester:
 getRepoContributors("jquery", "jquery", function(err, result) {
+  //jsonResult = JSON.stringify(JSON.parse(result));
+  //console.log(jsonResult);
 
-        //jsonResult = JSON.stringify(JSON.parse(result));
-        //console.log(jsonResult);
-  console.log("Errors:", err);
-  console.log("Result:", result);
+  // Parse the json object, looking for and outputting the avatar icons.
+  JSON.parse(result, function (key, value) {
+    if (key == "avatar_url") {
+      console.log(value);
+    }
+  })
 });
-
-// function callback(error, response, body) {
-//           //do somethings
-//           console.log(body)
-// }
