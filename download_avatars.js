@@ -6,6 +6,7 @@
 var request = require('request');
 
 var GITHUB_USER = "d-mclean";
+// NOTE TO SELF - REMOVE THIS TOKEN re: environment variable instead?
 var GITHUB_TOKEN = "6b726e7b0a008ab574f3a9d424c27ce25d6dc6b2";
 
 
@@ -22,12 +23,13 @@ function getRepoContributors(repoOwner, repoName, cb) {
       'User-Agent': 'GitHub Avatar Downloader - Student Project'
     }
   };
+
   request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         // Print out the response body
         console.log(body)
     }
-});
+  });
 
 // request(requestURL, function (error, response, body) {
 //   console.log('error:', error); // Print the error if one occurred
