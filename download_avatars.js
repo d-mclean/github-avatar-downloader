@@ -46,9 +46,6 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 // Tester:
 getRepoContributors("jquery", "jquery", function(err, result) {
-  //jsonResult = JSON.stringify(JSON.parse(result));
-  //console.log(jsonResult);
-
   // Parse the json object, looking for and outputting the avatar icons.
   JSON.parse(result, function (key, value) {
     if (key == "avatar_url") {
