@@ -37,8 +37,8 @@ function getRepoContributors(repoOwner, repoName, cb) {
          cb(error, body);
     } else {
       // Let the user know what happened if there's an error.
-      console.log('Errors:', err);
-      console.log('Result:', result);
+      console.log('Errors:', error);
+      //console.log('Result:', result);
     }
   });
 };
@@ -88,6 +88,41 @@ function downloadImageByURL(url, filePath) {
   }
 }
 
+var strUser = process.argv[2];
+var strRepo = process.argv[3];
+
+
+if (strUser == undefined || strRepo == undefined) {
+  console.log("ERROR!! Missing parameters - input should be in the format:\n > node download_avatars.js d-mclean hello-world");
+} else {
+  getRepoContributors(strUser, strRepo, function(err, result) {
+    var strURL = '';
+    var strFilename = '';
+
+    // Ensure parameters are valid.
+      // Parse the json object, looking for and outputting the avatar icons.
+      JSON.parse(result, function (key, value) {
+        //if (key == 'avatar_url') { return value; } else {return value;}
+        if (key == 'avatar_url') {
+          strURL = value;
+        }
+        if (key == 'login') {
+          strFilename = value;
+        }
+
+        // If we have the URL and filename, then download it.
+        if (strURL !== '' && strFilename !== ''){
+          downloadImageByURL(strURL, 'avatars/' + strFilename);
+
+          // Re-initialize variables back to the empty string.
+          strURL = '';
+          strFilename = '';
+        }
+      })
+  });
+}
+
+/*
 // Tester (Steps 1 - 6):
 getRepoContributors('d-mclean', 'hello-world', function(err, result) {
   var strURL = '';
@@ -113,6 +148,7 @@ getRepoContributors('d-mclean', 'hello-world', function(err, result) {
     }
   })
 });
+*/
 
 /*
 // Tester (Step 7+):
