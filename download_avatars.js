@@ -93,7 +93,7 @@ var strRepo = process.argv[3];
 
 
 if (strUser == undefined || strRepo == undefined) {
-  console.log("ERROR!! Missing parameters - input should be in the format:\n > node download_avatars.js d-mclean hello-world");
+  console.log('ERROR!! Missing parameters - input should be in the format:\n > node download_avatars.js d-mclean hello-world');
 } else {
   getRepoContributors(strUser, strRepo, function(err, result) {
     var strURL = '';
